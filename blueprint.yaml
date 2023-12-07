@@ -1,9 +1,0 @@
-name: BP.github.azure-ubuntu
-version: 1
-
-formatVersion: 1
-inputs:
-  vm-name:
-    type: string
-    title: VM Name
-    default: csc-vm
