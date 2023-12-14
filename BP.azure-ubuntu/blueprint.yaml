@@ -4,6 +4,14 @@ inputs:
     type: string
     title: VM Name
     default: csc-vm
+  public-ip:
+    type: boolean
+    title: Add public IP?
+    default: true
+  message:
+    type: string
+    title: Welcome Message
+    default: VMware Automation  Rocks!!
 resources:
   Azure_ResourceGroup_1:
     type: Cloud.Azure.ResourceGroup
@@ -18,6 +26,7 @@ resources:
       name: ${input.vm-name}
       networks:
         - network: ${resource.Cloud_Network_Public.id}
+          assignPublicIpAddress: ${input.public-ip}
       tags:
         - key: Premise
           value: Off-Premise
@@ -40,6 +49,15 @@ resources:
           list: |
             cloud:VMware1!
           expire: false
+        packages:
+          - apache2
+        runcmd:
+          - echo 'Setting cloud-nit config' > /var/log/vra-cloud-init.log
+          - touch  /root/vra-test-file.txt
+          - echo 'This is the log file generated from VMware vRA' >> /var/log/vra-cloud-init.log
+          - sed -i "s/It works/%{input.message}/g" /var/www/html/index.html
+          - sed -i "s/Apache2 Ubuntu Default Page/$(hostname)/g" /var/www/hatml/index.html
+          - clear
   Cloud_Network_Public:
     type: Cloud.Network
     properties:
