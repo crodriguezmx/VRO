@@ -56,7 +56,7 @@ resources:
           - touch  /root/vra-test-file.txt
           - echo 'This is the log file generated from VMware vRA' >> /var/log/vra-cloud-init.log
           - sed -i "s/It works/%{input.message}/g" /var/www/html/index.html
-          - sed -i "s/Apache2 Ubuntu Default Page/$(hostname)/g" /var/www/html/index.html
+          - sed -i "s/Apache2 Ubuntu Default Page/$(input.vm-name)/g" /var/www/html/index.html
           - clear
   Cloud_Network_Public:
     type: Cloud.Network
